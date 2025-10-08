@@ -114,12 +114,13 @@ Then reboot using `sudo reboot`.
 
 3. **Build and run:**
    ```bash
-   docker-compose up -d
+   docker compose build
+   docker compose up -d
    ```
 
 4. **Start worker:**
    ```bash
-   docker exec cafe-grader-worker bash -lc "./start_worker.sh & > /dev/stdout 2> /dev/stderr"
+   docker exec cafe-grader-worker bash -lc "./start_worker.sh"
    ```
 
 5. **Access the application:**
@@ -160,7 +161,7 @@ The setup uses Docker volumes for data persistence:
 
 ### Backup and Restore
 
-This project includes automated backup and restore scripts for easy data management.
+This repository includes automated backup and restore scripts for easy data management.
 
 #### **Create a Backup**
 
