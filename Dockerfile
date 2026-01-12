@@ -28,14 +28,17 @@ RUN --mount=type=cache,target=/var/lib/apt/lists apt-add-repository -y ppa:rael-
 
 FROM base AS common
 
+# clone cafe-grader-web
+RUN git clone https://github.com/nattee/cafe-grader-web.git /cafe-grader/web
+
+# fallback if the latest version of cafe-grader-web is not compatible
+# COPY cafe-grader-web /cafe-grader/web
+
 # install Ruby version from .ruby-version file and install gems
-COPY cafe-grader-web/.ruby-version /cafe-grader/web/.ruby-version
 RUN RUBY_VERSION=$(cat /cafe-grader/web/.ruby-version | tr -d '[:space:]') && \
 	echo "Installing Ruby ${RUBY_VERSION}..." && \
 	/bin/bash -lc "rvm install ${RUBY_VERSION}" && \
 	/bin/bash -lc "rvm use ${RUBY_VERSION}"
-
-COPY cafe-grader-web /cafe-grader/web
 
 # update apt list every time the copied cafe-grader-web repo is updated
 RUN --mount=type=cache,target=/var/lib/apt/lists apt update
@@ -84,7 +87,7 @@ WORKDIR /
 # install IOI Isolate
 RUN --mount=type=cache,target=/var/lib/apt/lists apt install -y libcap-dev libsystemd-dev
 
-COPY isolate /tmp/isolate
+RUN git clone https://github.com/ioi/isolate.git /tmp/isolate
 
 RUN cd /tmp/isolate && make isolate && make install && \
 	rm -rf /tmp/* /var/tmp/* ~/.cache
