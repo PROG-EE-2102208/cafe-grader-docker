@@ -205,19 +205,9 @@ This shows all available backup archives.
 
 ## Development
 
-### Building Individual Services
-
-```bash
-# Build worker only
-docker build -f worker.Dockerfile -t cafe-grader-worker .
-
-# Build web only  
-docker build -f web.Dockerfile -t cafe-grader-web .
-```
-
 ### Fallback
 
-Both `Dockerfile`s (`*.Dockerfile`) use `git clone` to clone the latest version of Cafe Grader from https://github.com/nattee/cafe-grader-web. However, in case the newer version can't be built, please try to follow the following instructions.
+This `Dockerfile` use `git clone` to clone the latest version of Cafe Grader from https://github.com/nattee/cafe-grader-web. However, in case the newer version can't be built, please try to follow the following instructions.
 
 1. **Update submodule (in case this repo is outdated):**
 
@@ -231,7 +221,7 @@ Both `Dockerfile`s (`*.Dockerfile`) use `git clone` to clone the latest version 
    git checkout <commit_sha>
    ```
 
-3. **Edit this section in both `Dockerfile` then try to rebuild:**
+3. **Edit this section in the `common` stage of `Dockerfile` then try to rebuild:**
    ```Dockerfile
    # clone cafe-grader-web
    RUN git clone https://github.com/nattee/cafe-grader-web.git /cafe-grader/web
